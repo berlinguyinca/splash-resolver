@@ -140,7 +140,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/splash-resolver/dev/1521587069301-2018-03-20T23:04:29.301Z/splash-resolver.zip"
+          "S3Key": "serverless/splash-resolver/dev/1521588365729-2018-03-20T23:26:05.729Z/splash-resolver.zip"
         },
         "FunctionName": "splash-resolver-dev-create",
         "Handler": "resolve/create.create",
@@ -151,7 +151,7 @@
             "Arn"
           ]
         },
-        "Runtime": "python2.7",
+        "Runtime": "python3.6",
         "Timeout": 90,
         "Environment": {
           "Variables": {
@@ -171,7 +171,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/splash-resolver/dev/1521587069301-2018-03-20T23:04:29.301Z/splash-resolver.zip"
+          "S3Key": "serverless/splash-resolver/dev/1521588365729-2018-03-20T23:26:05.729Z/splash-resolver.zip"
         },
         "FunctionName": "splash-resolver-dev-get",
         "Handler": "resolve/get.get",
@@ -182,7 +182,7 @@
             "Arn"
           ]
         },
-        "Runtime": "python2.7",
+        "Runtime": "python3.6",
         "Timeout": 90,
         "Environment": {
           "Variables": {
@@ -202,7 +202,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/splash-resolver/dev/1521587069301-2018-03-20T23:04:29.301Z/splash-resolver.zip"
+          "S3Key": "serverless/splash-resolver/dev/1521588365729-2018-03-20T23:26:05.729Z/splash-resolver.zip"
         },
         "FunctionName": "splash-resolver-dev-list",
         "Handler": "resolve/list.list",
@@ -213,7 +213,7 @@
             "Arn"
           ]
         },
-        "Runtime": "python2.7",
+        "Runtime": "python3.6",
         "Timeout": 90,
         "Environment": {
           "Variables": {
@@ -233,7 +233,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/splash-resolver/dev/1521587069301-2018-03-20T23:04:29.301Z/splash-resolver.zip"
+          "S3Key": "serverless/splash-resolver/dev/1521588365729-2018-03-20T23:26:05.729Z/splash-resolver.zip"
         },
         "FunctionName": "splash-resolver-dev-getByInchi",
         "Handler": "resolve/get.get_by_inchi_key",
@@ -244,7 +244,7 @@
             "Arn"
           ]
         },
-        "Runtime": "python2.7",
+        "Runtime": "python3.6",
         "Timeout": 90,
         "Environment": {
           "Variables": {
@@ -613,7 +613,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1521587069609": {
+    "ApiGatewayDeployment1521588366064": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -760,27 +760,19 @@
         }
       }
     },
-    "TodosDynamoDbTable": {
+    "SplashDynamoDbTable": {
       "Type": "AWS::DynamoDB::Table",
       "DeletionPolicy": "Retain",
       "Properties": {
         "AttributeDefinitions": [
           {
-            "AttributeName": "splash",
-            "AttributeType": "S"
-          },
-          {
-            "AttributeName": "inchiKey",
-            "AttributeType": "S"
-          },
-          {
-            "AttributeName": "url",
+            "AttributeName": "id",
             "AttributeType": "S"
           }
         ],
         "KeySchema": [
           {
-            "AttributeName": "splash",
+            "AttributeName": "id",
             "KeyType": "HASH"
           }
         ],

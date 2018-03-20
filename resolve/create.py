@@ -2,7 +2,6 @@ import json
 import logging
 import os
 import time
-import uuid
 
 import boto3
 
@@ -31,7 +30,7 @@ def create(event, context):
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
 
     item = {
-        'id': str(uuid.uuid1()),
+        'id': data['splash'] + data['inchiKey'] + data['origin'],
         'splash': data['splash'],
         'inchiKey': data['inchiKey'],
         'origin': data['origin'],
