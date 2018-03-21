@@ -1,0 +1,73 @@
+service: splash-resolver
+
+frameworkVersion: ">=1.1.0 <2.0.0"
+
+provider:
+  name: aws
+  runtime: python3.6
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+  memorySize: 128
+  timeout: 90
+  versionFunctions: false
+
+functions:
+  create:
+    handler: resolve/create.create
+    events:
+      - http:
+          path: resolve
+          method: post
+          cors: true
+  get:
+    handler: resolve/get.get
+    events:
+      - http:
+          path: resolve/{id}
+          method: get
+          cors: true
+  list:
+    handler: resolve/list.list
+    events:
+      - http:
+          path: resolve
+          method: get
+          cors: true
+
+  getByInchi:
+    handler: resolve/get.get_by_inchi_key
+    events:
+      - http:
+          path: resolve/splash/{inchiKey}
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    SplashDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
