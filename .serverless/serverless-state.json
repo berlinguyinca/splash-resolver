@@ -62,6 +62,12 @@
               "LogGroupName": "/aws/lambda/splash-resolver-dev-getByInchi"
             }
           },
+          "GetBySplashLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/splash-resolver-dev-getBySplash"
+            }
+          },
           "IamRoleLambdaExecution": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -113,6 +119,9 @@
                           },
                           {
                             "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-dev-getByInchi:*"
+                          },
+                          {
+                            "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-dev-getBySplash:*"
                           }
                         ]
                       },
@@ -133,6 +142,9 @@
                           },
                           {
                             "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-dev-getByInchi:*:*"
+                          },
+                          {
+                            "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-dev-getBySplash:*:*"
                           }
                         ]
                       },
@@ -164,7 +176,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/splash-resolver/dev/1521588365729-2018-03-20T23:26:05.729Z/splash-resolver.zip"
+                "S3Key": "serverless/splash-resolver/dev/1521675508247-2018-03-21T23:38:28.247Z/splash-resolver.zip"
               },
               "FunctionName": "splash-resolver-dev-create",
               "Handler": "resolve/create.create",
@@ -195,7 +207,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/splash-resolver/dev/1521588365729-2018-03-20T23:26:05.729Z/splash-resolver.zip"
+                "S3Key": "serverless/splash-resolver/dev/1521675508247-2018-03-21T23:38:28.247Z/splash-resolver.zip"
               },
               "FunctionName": "splash-resolver-dev-get",
               "Handler": "resolve/get.get",
@@ -226,7 +238,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/splash-resolver/dev/1521588365729-2018-03-20T23:26:05.729Z/splash-resolver.zip"
+                "S3Key": "serverless/splash-resolver/dev/1521675508247-2018-03-21T23:38:28.247Z/splash-resolver.zip"
               },
               "FunctionName": "splash-resolver-dev-list",
               "Handler": "resolve/list.list",
@@ -257,7 +269,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/splash-resolver/dev/1521588365729-2018-03-20T23:26:05.729Z/splash-resolver.zip"
+                "S3Key": "serverless/splash-resolver/dev/1521675508247-2018-03-21T23:38:28.247Z/splash-resolver.zip"
               },
               "FunctionName": "splash-resolver-dev-getByInchi",
               "Handler": "resolve/get.get_by_inchi_key",
@@ -278,6 +290,37 @@
             },
             "DependsOn": [
               "GetByInchiLogGroup",
+              "IamRoleLambdaExecution"
+            ]
+          },
+          "GetBySplashLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/splash-resolver/dev/1521675508247-2018-03-21T23:38:28.247Z/splash-resolver.zip"
+              },
+              "FunctionName": "splash-resolver-dev-getBySplash",
+              "Handler": "resolve/get.get_by_splash_key",
+              "MemorySize": 128,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              },
+              "Runtime": "python3.6",
+              "Timeout": 90,
+              "Environment": {
+                "Variables": {
+                  "DYNAMODB_TABLE": "splash-resolver-dev"
+                }
+              }
+            },
+            "DependsOn": [
+              "GetBySplashLogGroup",
               "IamRoleLambdaExecution"
             ]
           },
@@ -338,6 +381,30 @@
                 "Ref": "ApiGatewayResourceResolveSplash"
               },
               "PathPart": "{inchiKey}",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceResolveInchikey": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceResolve"
+              },
+              "PathPart": "inchiKey",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceResolveInchikeySplashVar": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceResolveInchikey"
+              },
+              "PathPart": "{splash}",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -475,6 +542,52 @@
               },
               "ResourceId": {
                 "Ref": "ApiGatewayResourceResolveSplashInchikeyVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodResolveInchikeySplashVarOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                      "method.response.header.Access-Control-Allow-Credentials": "'false'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceResolveInchikeySplashVar"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -637,7 +750,46 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1521588366064": {
+          "ApiGatewayMethodResolveInchikeySplashVarGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceResolveInchikeySplashVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "GetBySplashLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            }
+          },
+          "ApiGatewayDeployment1521675508266": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -649,7 +801,8 @@
               "ApiGatewayMethodResolvePost",
               "ApiGatewayMethodResolveIdVarGet",
               "ApiGatewayMethodResolveGet",
-              "ApiGatewayMethodResolveSplashInchikeyVarGet"
+              "ApiGatewayMethodResolveSplashInchikeyVarGet",
+              "ApiGatewayMethodResolveInchikeySplashVarGet"
             ]
           },
           "CreateLambdaPermissionApiGateway": {
@@ -757,6 +910,39 @@
               "FunctionName": {
                 "Fn::GetAtt": [
                   "GetByInchiLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "GetBySplashLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetBySplashLambdaFunction",
                   "Arn"
                 ]
               },
@@ -985,6 +1171,40 @@
         "name": "splash-resolver-dev-getByInchi",
         "package": {},
         "vpc": {}
+      },
+      "getBySplash": {
+        "handler": "resolve/get.get_by_splash_key",
+        "events": [
+          {
+            "http": {
+              "path": "resolve/inchiKey/{splash}",
+              "method": "get",
+              "cors": {
+                "origins": [
+                  "*"
+                ],
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "GET"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "splash-resolver-dev-getBySplash",
+        "package": {},
+        "vpc": {}
       }
     },
     "resources": {
@@ -1015,10 +1235,10 @@
       },
       "Outputs": {}
     },
-    "artifact": "/home/wohlgemuth/PycharmProjects/splash-resolver/.serverless/splash-resolver.zip"
+    "artifact": "C:\\Users\\wohlg\\PycharmProjects\\splash-resolver\\.serverless\\splash-resolver.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/splash-resolver/dev/1521588365729-2018-03-20T23:26:05.729Z",
+    "artifactDirectoryName": "serverless/splash-resolver/dev/1521675508247-2018-03-21T23:38:28.247Z",
     "artifact": "splash-resolver.zip"
   }
 }

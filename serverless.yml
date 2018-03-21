@@ -52,6 +52,14 @@ functions:
           method: get
           cors: true
 
+  getBySplash:
+    handler: resolve/get.get_by_splash_key
+    events:
+      - http:
+          path: resolve/inchiKey/{splash}
+          method: get
+          cors: true
+
 resources:
   Resources:
     SplashDynamoDbTable:
