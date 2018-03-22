@@ -15,7 +15,7 @@ This request will create a new entry and requires a well formated json object, l
 
 {
 
- "inchiKey" : "the inchi keyyyyyyy",
+ "inchiKey" : "the inchi key",
 
  "splash" : "the splash",
 
