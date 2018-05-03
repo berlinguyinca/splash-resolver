@@ -40,3 +40,19 @@ lists all records associated with this InChI Key
 *  GET - https://i1bicedwnd.execute-api.us-east-1.amazonaws.com/dev/resolve/inchiKey/{splash}
 
 lists all records associated with the splash
+
+# deployment
+
+to deploy the application to the configured AWS account, please modify the domain settings in the serverless file and than execute
+
+```
+sls deploy
+```
+
+or 
+
+```
+sls deploy --stage prod
+```
+
+to select your preffered stage
