@@ -2,9 +2,15 @@ service: splash-resolver
 
 frameworkVersion: ">=1.1.0 <2.0.0"
 
+plugins:
+  - serverless-domain-manager
+  - serverless-python-requirements
+
 provider:
   name: aws
   runtime: python3.6
+  region: us-west-2
+
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
   iamRoleStatements:
@@ -20,6 +26,37 @@ provider:
   memorySize: 128
   timeout: 90
   versionFunctions: false
+
+############################################################################################
+#custom configuration settings
+############################################################################################
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  region: ${opt:region, self:provider.region}
+
+  snsTopic: "StasisQueue-${self:custom.stage}"
+
+  trackingTable: "StasisTrackingTable-${self:custom.stage}"
+  acquisitionTable: "StasisMetaDataTable-${self:custom.stage}"
+  resultTable: "StasisResultTable-${self:custom.stage}"
+
+  ###
+  # custom domain management
+  ###
+
+  domains:
+    prod: api.metabolomics.us
+    test: test-api.metabolomics.us
+    dev:  dev-api.metabolomics.us
+
+  customDomain:
+    basePath: "splash"
+    domainName: ${self:custom.domains.${self:custom.stage}}
+    stage: "${self:custom.stage}"
+    createRoute53Record: true
+
+  pythonRequirements:
+    dockerizePip: non-linux
 
 functions:
   create:

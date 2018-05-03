@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
                     print('Posting %s+%s' % (request['splash'], request['inchiKey']))
 
-                    r = requests.post('https://i1bicedwnd.execute-api.us-east-1.amazonaws.com/dev/resolve', json=request)
+                    r = requests.post('https://api.metabolomics.us/splash/resolve', json=request)
 
                     if r.status_code != 200:
                         print('\tError', r.status_code)

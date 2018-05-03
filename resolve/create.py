@@ -23,7 +23,7 @@ def create(event, context):
         logging.error("Validation Failed")
         raise Exception("Couldn't create the resolver item, requires 'record' url")
 
-    #add support for checking if inchi/splash pattern is valid
+    # add support for checking if inchi/splash pattern is valid
 
     timestamp = int(time.time() * 1000)
 

@@ -8,31 +8,31 @@
     "CreateLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/splash-resolver-dev-create"
+        "LogGroupName": "/aws/lambda/splash-resolver-prod-create"
       }
     },
     "GetLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/splash-resolver-dev-get"
+        "LogGroupName": "/aws/lambda/splash-resolver-prod-get"
       }
     },
     "ListLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/splash-resolver-dev-list"
+        "LogGroupName": "/aws/lambda/splash-resolver-prod-list"
       }
     },
     "GetByInchiLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/splash-resolver-dev-getByInchi"
+        "LogGroupName": "/aws/lambda/splash-resolver-prod-getByInchi"
       }
     },
     "GetBySplashLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/splash-resolver-dev-getBySplash"
+        "LogGroupName": "/aws/lambda/splash-resolver-prod-getBySplash"
       }
     },
     "IamRoleLambdaExecution": {
@@ -60,7 +60,7 @@
               "Fn::Join": [
                 "-",
                 [
-                  "dev",
+                  "prod",
                   "splash-resolver",
                   "lambda"
                 ]
@@ -76,19 +76,19 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-dev-create:*"
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-prod-create:*"
                     },
                     {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-dev-get:*"
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-prod-get:*"
                     },
                     {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-dev-list:*"
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-prod-list:*"
                     },
                     {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-dev-getByInchi:*"
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-prod-getByInchi:*"
                     },
                     {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-dev-getBySplash:*"
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-prod-getBySplash:*"
                     }
                   ]
                 },
@@ -99,19 +99,19 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-dev-create:*:*"
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-prod-create:*:*"
                     },
                     {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-dev-get:*:*"
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-prod-get:*:*"
                     },
                     {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-dev-list:*:*"
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-prod-list:*:*"
                     },
                     {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-dev-getByInchi:*:*"
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-prod-getByInchi:*:*"
                     },
                     {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-dev-getBySplash:*:*"
+                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/splash-resolver-prod-getBySplash:*:*"
                     }
                   ]
                 },
@@ -125,7 +125,7 @@
                     "dynamodb:UpdateItem",
                     "dynamodb:DeleteItem"
                   ],
-                  "Resource": "arn:aws:dynamodb:us-east-1:*:table/splash-resolver-dev"
+                  "Resource": "arn:aws:dynamodb:us-west-2:*:table/splash-resolver-prod"
                 }
               ]
             }
@@ -137,8 +137,8 @@
             "-",
             [
               "splash-resolver",
-              "dev",
-              "us-east-1",
+              "prod",
+              "us-west-2",
               "lambdaRole"
             ]
           ]
@@ -152,9 +152,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/splash-resolver/dev/1521675508247-2018-03-21T23:38:28.247Z/splash-resolver.zip"
+          "S3Key": "serverless/splash-resolver/prod/1525383444531-2018-05-03T21:37:24.531Z/splash-resolver.zip"
         },
-        "FunctionName": "splash-resolver-dev-create",
+        "FunctionName": "splash-resolver-prod-create",
         "Handler": "resolve/create.create",
         "MemorySize": 128,
         "Role": {
@@ -167,7 +167,7 @@
         "Timeout": 90,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "splash-resolver-dev"
+            "DYNAMODB_TABLE": "splash-resolver-prod"
           }
         }
       },
@@ -183,9 +183,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/splash-resolver/dev/1521675508247-2018-03-21T23:38:28.247Z/splash-resolver.zip"
+          "S3Key": "serverless/splash-resolver/prod/1525383444531-2018-05-03T21:37:24.531Z/splash-resolver.zip"
         },
-        "FunctionName": "splash-resolver-dev-get",
+        "FunctionName": "splash-resolver-prod-get",
         "Handler": "resolve/get.get",
         "MemorySize": 128,
         "Role": {
@@ -198,7 +198,7 @@
         "Timeout": 90,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "splash-resolver-dev"
+            "DYNAMODB_TABLE": "splash-resolver-prod"
           }
         }
       },
@@ -214,9 +214,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/splash-resolver/dev/1521675508247-2018-03-21T23:38:28.247Z/splash-resolver.zip"
+          "S3Key": "serverless/splash-resolver/prod/1525383444531-2018-05-03T21:37:24.531Z/splash-resolver.zip"
         },
-        "FunctionName": "splash-resolver-dev-list",
+        "FunctionName": "splash-resolver-prod-list",
         "Handler": "resolve/list.list",
         "MemorySize": 128,
         "Role": {
@@ -229,7 +229,7 @@
         "Timeout": 90,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "splash-resolver-dev"
+            "DYNAMODB_TABLE": "splash-resolver-prod"
           }
         }
       },
@@ -245,9 +245,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/splash-resolver/dev/1521675508247-2018-03-21T23:38:28.247Z/splash-resolver.zip"
+          "S3Key": "serverless/splash-resolver/prod/1525383444531-2018-05-03T21:37:24.531Z/splash-resolver.zip"
         },
-        "FunctionName": "splash-resolver-dev-getByInchi",
+        "FunctionName": "splash-resolver-prod-getByInchi",
         "Handler": "resolve/get.get_by_inchi_key",
         "MemorySize": 128,
         "Role": {
@@ -260,7 +260,7 @@
         "Timeout": 90,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "splash-resolver-dev"
+            "DYNAMODB_TABLE": "splash-resolver-prod"
           }
         }
       },
@@ -276,9 +276,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/splash-resolver/dev/1521675508247-2018-03-21T23:38:28.247Z/splash-resolver.zip"
+          "S3Key": "serverless/splash-resolver/prod/1525383444531-2018-05-03T21:37:24.531Z/splash-resolver.zip"
         },
-        "FunctionName": "splash-resolver-dev-getBySplash",
+        "FunctionName": "splash-resolver-prod-getBySplash",
         "Handler": "resolve/get.get_by_splash_key",
         "MemorySize": 128,
         "Role": {
@@ -291,7 +291,7 @@
         "Timeout": 90,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "splash-resolver-dev"
+            "DYNAMODB_TABLE": "splash-resolver-prod"
           }
         }
       },
@@ -303,7 +303,7 @@
     "ApiGatewayRestApi": {
       "Type": "AWS::ApiGateway::RestApi",
       "Properties": {
-        "Name": "dev-splash-resolver",
+        "Name": "prod-splash-resolver",
         "EndpointConfiguration": {
           "Types": [
             "EDGE"
@@ -765,13 +765,13 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1521675508266": {
+    "ApiGatewayDeployment1525383444556": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         },
-        "StageName": "dev"
+        "StageName": "prod"
       },
       "DependsOn": [
         "ApiGatewayMethodResolvePost",
@@ -966,7 +966,7 @@
           "ReadCapacityUnits": 1,
           "WriteCapacityUnits": 1
         },
-        "TableName": "splash-resolver-dev"
+        "TableName": "splash-resolver-prod"
       }
     }
   },
@@ -986,7 +986,7 @@
             {
               "Ref": "ApiGatewayRestApi"
             },
-            ".execute-api.us-east-1.amazonaws.com/dev"
+            ".execute-api.us-west-2.amazonaws.com/prod"
           ]
         ]
       }
