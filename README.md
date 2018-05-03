@@ -9,7 +9,7 @@ a 429 error code.
 
 This section describes the basic API
 
-*  POST - https://i1bicedwnd.execute-api.us-east-1.amazonaws.com/dev/resolve
+*  POST - https://api.metabolomics.us/splash/resolve
 
 This request will create a new entry and requires a well formated json object, looking like this:
 
@@ -25,15 +25,15 @@ This request will create a new entry and requires a well formated json object, l
 
 }
 
-*  GET - https://i1bicedwnd.execute-api.us-east-1.amazonaws.com/dev/resolve/{id}
+*  GET - https://api.metabolomics.us/splash/resolve/{id}
 
 returns the complete record of the given id
 
-*  GET - https://i1bicedwnd.execute-api.us-east-1.amazonaws.com/dev/resolve
+*  GET - https://api.metabolomics.us/splash/resolve
 
 list the content of the database
 
-*  GET - https://i1bicedwnd.execute-api.us-east-1.amazonaws.com/dev/resolve/splash/{inchiKey}
+*  GET - https://api.metabolomics.us/splash/resolve/{inchiKey}
 
 lists all records associated with this InChI Key
 
