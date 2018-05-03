@@ -37,7 +37,7 @@ list the content of the database
 
 lists all records associated with this InChI Key
 
-*  GET - https://i1bicedwnd.execute-api.us-east-1.amazonaws.com/dev/resolve/inchiKey/{splash}
+*  GET - https://api.metabolomics.us/splash/resolve/inchiKey/{splash}
 
 lists all records associated with the splash
 
